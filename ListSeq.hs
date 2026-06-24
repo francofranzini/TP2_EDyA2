@@ -40,3 +40,7 @@ instance Seq ListSeq where
     fromList s                         = (ListSeq s)
     
 
+--b) W_filterS(n) = W_filter(n) = n | S_filterS(n) = S_filter(n) = O(n) donde n es el largo de la lista 
+--   W_reduceS(n) = 2*W_reduceS(n/2) + W(f) = W(f)*n | S_reduceS(n) = S(f)*log_2(n)
+--   W_scanS(n)   = W_scanl(n) = O(n)  |  S_scanS(s) = S_scanl(n) = O(n)
+--
