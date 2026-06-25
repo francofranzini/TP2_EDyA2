@@ -5,11 +5,11 @@ import Seq
 import ListSeq
 
 
-s0, s1, s2, s3 :: [Int]
-s0 = fromList []
-s1 = fromList [4]
-s2 = fromList [5,1]
-s3 = fromList [6,3,4]
+s0, s1, s2, s3 :: ListSeq Int
+s0 = Seq.fromList []
+s1 = Seq.fromList [4]
+s2 = Seq.fromList [5,1]
+s3 = Seq.fromList [6,3,4]
 
 testLengthEmptySeq :: Test
 testLengthEmptySeq = 

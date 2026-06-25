@@ -1,16 +1,16 @@
 module ArrTests where
 
 import Test.HUnit
-import Seq
-import Arr        (Arr)
 import ArrSeq
+import Seq
+import Arr
 
 
-s0, s1, s2, s3 :: Arr Int
-s0 = fromList []
-s1 = fromList [4]
-s2 = fromList [5,1]
-s3 = fromList [6,3,4]
+s0, s1, s2, s3 :: ArrSeq Int
+s0 = Seq.fromList []
+s1 = Seq.fromList [4]
+s2 = Seq.fromList [5,1]
+s3 = Seq.fromList [6,3,4]
 
 testLengthEmptySeq :: Test
 testLengthEmptySeq = 
@@ -30,7 +30,7 @@ testMapEmptySeq =
 testMapNonEmptySeq :: Test
 testMapNonEmptySeq = 
   TestCase $ assertEqual "Error on non-empty sequence map"
-                         (fromList [7,4,5]) (mapS (+1) s3)
+                         (Seq.fromList [7,4,5]) (mapS (+1) s3)
 
 testReduceSumSeq0 :: Test
 testReduceSumSeq0 = 
@@ -50,7 +50,7 @@ testScanSumSeq0 =
 testScanSumSeq3 :: Test
 testScanSumSeq3 = 
   TestCase $ assertEqual "Error on scan for sequence of length 3"
-                         (fromList[0,6,9], 13) (scanS (+) 0 s3)
+                         (Seq.fromList[0,6,9], 13) (scanS (+) 0 s3)
 
 testsArray = 
   [

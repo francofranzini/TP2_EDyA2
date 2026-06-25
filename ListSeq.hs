@@ -4,6 +4,12 @@ import Seq
 import Par
 newtype ListSeq a = ListSeq [a]
 
+instance Show a => Show (ListSeq a) where
+    show (ListSeq xs) = show xs
+
+instance Eq a => Eq (ListSeq a) where
+    (ListSeq xs) == (ListSeq ys) = xs == ys
+
 instance Seq ListSeq where
     emptyS                             = ListSeq []
     singletonS x                       = ListSeq [x]
@@ -26,12 +32,14 @@ instance Seq ListSeq where
     joinS (ListSeq [])                 = ListSeq []
     joinS (ListSeq s)                  = ListSeq (concatMap (\(ListSeq xs) -> xs) s)
     
-    reduceS f b (ListSeq [])           = b
-    reduceS f b (ListSeq [x])          = x
-    reduceS f b (ListSeq s)            = 
-        let (izq, der) = (reduceS f b (ListSeq (take mitad s))) ||| (reduceS f b (ListSeq (drop mitad s)))
-            mitad = (length s) `div` 2
-        in f izq der
+    reduceS f b (ListSeq [])  = b
+    reduceS f b (ListSeq [x]) = x
+    reduceS f b (ListSeq s)   = reduceS f b (ListSeq (reducePairs s))
+        where
+            reducePairs []       = []
+            reducePairs [x]      = [x]
+            reducePairs (x:y:zs) = f x y : reducePairs zs
+    
     scanS f b (ListSeq s)              = (ListSeq prefijos, total)
         where
             acum = scanl f b s
@@ -39,8 +47,3 @@ instance Seq ListSeq where
             total = last acum
     fromList s                         = (ListSeq s)
     
-
---b) W_filterS(n) = W_filter(n) = n | S_filterS(n) = S_filter(n) = O(n) donde n es el largo de la lista 
---   W_reduceS(n) = 2*W_reduceS(n/2) + W(f) = W(f)*n | S_reduceS(n) = S(f)*log_2(n)
---   W_scanS(n)   = W_scanl(n) = O(n)  |  S_scanS(s) = S_scanl(n) = O(n)
---
